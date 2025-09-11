@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная - Название вашего сайта</title>
@@ -12,18 +13,38 @@
 <header>
     <a href="/">Кирюшин сайт</a>
     <!-- Главное меню навигации -->
-    <nav>
-        <ul>
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="about.html">О нас</a></li>
-            <li><a href="contacts.html">Контакты</a></li>
+    <nav class="site-nav" aria-label="Основная навигация">
+        <ul class="site-nav__list">
+            <li class="site-nav__item"><a class="site-nav__link"
+                                          href="index.html">Главная</a></li>
+            <li class="site-nav__item"><a class="site-nav__link"
+                                          href="about.html">О нас</a></li>
+            <li class="site-nav__item"><a class="site-nav__link site-nav__link--
+cta" href="#contacts">Контакты</a></li>
         </ul>
     </nav>
 </header>
 
 <!-- Уникальное основное содержимое страницы -->
 <main>
-    <h1>Добро пожаловать на наш сайт!</h1>
+    <button class="theme-toggle" type="button" aria-pressed="false">Тема</button>
+    <script defer>
+        const KEY = 'theme', btn = document.querySelector('.theme-toggle');
+        const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+        // Автовыбор: системная тема или сохранённый выбор пользователя
+        if (localStorage.getItem(KEY) === 'dark' || (!localStorage.getItem(KEY) &&
+            prefersDark)) {
+            document.body.classList.add('theme-dark');
+            btn?.setAttribute('aria-pressed', 'true');
+        }
+        // Переключение по кнопке с сохранением в localStorage
+        btn?.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('theme-dark');
+            btn.setAttribute('aria-pressed', String(isDark));
+            localStorage.setItem(KEY, isDark ? 'dark' : 'light');
+        });
+    </script>
+    <h1 class="hero">Добро пожаловать на наш сайт!</h1>
 
     <!-- Секция 1 с якорем -->
     <section id="services">
@@ -44,6 +65,11 @@
         <p>Наши контакты...</p>
         <a href="contacts.html">Подробнее</a> <!-- Ссылка на отдельную страницу -->
     </section>
+    <img
+            src="../img/sova.jpg"
+            sizes="(max-width: 700px) 92vw, (max-width: 1200px) 640px, 960px"
+            alt="Сова"
+            loading="lazy">
 </main>
 
 <!-- Подвал сайта -->

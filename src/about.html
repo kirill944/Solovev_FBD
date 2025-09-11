@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>О нас - Кирюшин сайт</title>
@@ -22,6 +24,23 @@
 </header>
 
 <main>
+    <button class="theme-toggle" type="button" aria-pressed="false">Тема</button>
+    <script defer>
+        const KEY = 'theme', btn = document.querySelector('.theme-toggle');
+        const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+        // Автовыбор: системная тема или сохранённый выбор пользователя
+        if (localStorage.getItem(KEY) === 'dark' || (!localStorage.getItem(KEY) &&
+            prefersDark)) {
+            document.body.classList.add('theme-dark');
+            btn?.setAttribute('aria-pressed', 'true');
+        }
+        // Переключение по кнопке с сохранением в localStorage
+        btn?.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('theme-dark');
+            btn.setAttribute('aria-pressed', String(isDark));
+            localStorage.setItem(KEY, isDark ? 'dark' : 'light');
+        });
+    </script>
     <!-- Простые "хлебные крошки" -->
     <nav aria-label="Хлебные крошки">
         <a href="index.html">Главная</a> →
@@ -33,6 +52,13 @@
         <h2>Наша история</h2>
         <p>Текст о том, как все начиналось...</p>
     </section>
+    <div class="media">
+        <iframe
+                src="https://rutube.ru/play/embed/d909ef8880ab1baf471aaa3cace0c8d1"
+                title="Видео о проекте"
+                allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                allowfullscreen loading="lazy"></iframe>
+    </div>
     <section>
         <h2>Наша команда</h2>
         <p>Текст о команде...</p>
